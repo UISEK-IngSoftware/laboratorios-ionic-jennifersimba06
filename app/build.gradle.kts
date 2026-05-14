@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ec.edu.uisek.githubclient"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "ec.edu.uisek.githubclient"
@@ -56,4 +56,7 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
 }
