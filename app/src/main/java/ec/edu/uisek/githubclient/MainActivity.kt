@@ -25,9 +25,7 @@ class MainActivity : ComponentActivity() {
                 val listViewModel : RepoListViewModel = viewModel()
                 var currentScreen by remember { mutableStateOf("repoList") }
                 when (currentScreen) {
-                    "repoList" -> RepoList (
-                        onNavigateToForm = {currentScreen = "repoForm"}
-                    )
+                    "repoList" -> RepoList { currentScreen = "repoForm" }
                     "repoForm" -> RepoForm(
                         onBackClick = {currentScreen = "repoList"},
                         onSaveSuccess = {

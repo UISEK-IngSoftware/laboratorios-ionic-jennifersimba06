@@ -82,7 +82,8 @@ fun RepoItemPreview(){
         owner = GithubUser(
             id = "1",
             name = "Owner Name",
-            avatarUrl = "https://avatars.githubUsercontent.com/u/168299135?v=4"
+            avatarUrl = "https://avatars.githubUsercontent.com/u/168299135?v=4",
+            login = "owner_name"
         ),
         description = "Repo Description",
         language = "Kotlin"

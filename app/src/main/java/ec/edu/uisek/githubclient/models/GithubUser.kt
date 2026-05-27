@@ -6,5 +6,8 @@ data class GithubUser(
     val id: String,
     val name: String,
     @SerializedName("avatar_url")
-    val avatarUrl: String
-)
+    val avatarUrl: String,
+    val login: String
+) {
+
+}

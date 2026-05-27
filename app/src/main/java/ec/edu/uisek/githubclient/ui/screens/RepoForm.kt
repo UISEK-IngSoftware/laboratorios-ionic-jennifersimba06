@@ -33,12 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ec.edu.uisek.githubclient.models.Repository
 import ec.edu.uisek.githubclient.ui.theme.GithubClientTheme
 import ec.edu.uisek.githubclient.viewmodels.RepoFormViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RepoForm (
+    repository: Repository? = null,
     onBackClick: () -> Unit = {},
     onSaveSuccess: () -> Unit = {},
     viewModel: RepoFormViewModel = viewModel()
@@ -47,8 +49,10 @@ fun RepoForm (
     val isSuccess by viewModel.isSuccess.collectAsState()
     val errorMsg by viewModel.errorMsg.collectAsState()
 
-    var name by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(repository?.name ?:"") }
+    var description by remember { mutableStateOf(repository?.description ?:"") }
+
+    val isEditing = repository != null
 
     LaunchedEffect(isSuccess) {
         if (isSuccess) {
@@ -60,7 +64,7 @@ fun RepoForm (
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Nuevo repositorio") },
+                title = { Text(if(isEditing)"Editar repositorio" else "Nuevo repositorio") },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -83,12 +87,16 @@ fun RepoForm (
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            errorMsg?.let { msg ->
+                Text(text = msg, color = MaterialTheme.colorScheme.error, modifier = Modifier.padding(bottom = 8.dp))
+            }
             OutlinedTextField(
                 value = name,
                 onValueChange = {name = it},
                 label = {Text("Nombre del repositorio")},
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                singleLine = true,
+                enabled = !isEditing
             )
             Spacer(modifier = Modifier.height(16.dp))
             OutlinedTextField(
@@ -100,16 +108,21 @@ fun RepoForm (
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { viewModel.createRepo(name, description) },
+                onClick = {
+                    if (isEditing && repository != null) {
+                        viewModel.updateRepo(repository.owner.login, repository.name, description)
+                    } else {
+                        viewModel.createRepo(name, description)
+                    }
+                },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !name.isBlank()
+                enabled = !name.isBlank() && !isLoading
             ) {
                 Icon(
                     imageVector = Icons.Default.CheckCircle,
                     contentDescription = "Guardar")
                 Spacer(Modifier.width(8.dp))
-                Text("Guardar")
-
+                Text(if (isLoading) "Guardando..." else if (isEditing) "Actualizar" else "Guardar")
             }
         }
     }
