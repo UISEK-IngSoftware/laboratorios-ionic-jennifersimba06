@@ -2,9 +2,9 @@
 
 ## Información del Estudiante
 
-- **Nombre:** [Tu nombre completo aquí]
-- **Carrera:** [Tu carrera]
-- **Fecha de inicio:** [Fecha]
+- **Nombre:** Jennifer Simba
+- **Carrera:** Ingeniería Software
+- **Fecha de inicio:** 04/06/2026
 
 ---
 
