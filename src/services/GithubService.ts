@@ -44,6 +44,25 @@ export const createRepository = async (repository: RepositoryPayload): Promise<R
     }
 };
 
+// --- Examen P2: EDITAR (PUT / PATCH) ---
+export const updateRepository = async (owner: string, repoName: string, repository: RepositoryPayload): Promise<Repository | null> => {
+    try {
+        const response = await githubApiClient.patch(`/repos/${owner}/${repoName}`, repository);
+        return response.data as Repository;
+    } catch (error) {
+        throw new Error("Error al actualizar repositorio: " + error);
+    }
+};
+
+// --- Examen P2: ELIMINAR (DELETE) ---
+export const deleteRepository = async (owner: string, repoName: string): Promise<void> => {
+    try {
+        await githubApiClient.delete(`/repos/${owner}/${repoName}`);
+    } catch (error) {
+        throw new Error("Error al eliminar repositorio: " + error);
+    }
+};
+
 export const getUserInfo = async (): Promise<GithubUser | null> => {
     try {
         const response = await githubApiClient.get("/user");
