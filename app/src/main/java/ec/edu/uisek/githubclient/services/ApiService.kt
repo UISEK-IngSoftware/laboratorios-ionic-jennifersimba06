@@ -25,10 +25,10 @@ interface ApiService {
     ) : Repository
 
     //Nuevo metodo actualizar repositorio
-    @PATCH ("repos/{owner}/{repo}")
-    suspend fun updateRepository (
+    @PATCH("repos/{owner}/{repo}")
+    suspend fun updateRepository(
+        @Path("owner") owner: String,
         @Path("repo") repo: String,
-        repoName: String,
         @Body repository: RepositoryPayload
     ): Repository
 
